@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
+import ComponentA from './components/ComponentA';
+import Counter from './components/Counter';
+import { login } from './redux/actions/actions';
+
 
 function App() {
+  const authState = useSelector(state=>state.authReducer)
+  const dispatch = useDispatch()
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {authState.isLogin ? <>
+        <Counter/>
+        <hr/>
+        <ComponentA/>
+        <button onClick={()=>{
+          dispatch(login(false))
+        }}>Logout</button>
+       </>:
+       <button onClick={()=>{
+        dispatch(login(true))
+      }}>login</button>
+    }
+ 
     </div>
   );
 }
